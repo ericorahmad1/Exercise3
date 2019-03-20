@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Planet Table API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+    <script src="api.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <h1>Planet API</h1>
+    <p><button onclick="sortTable()">Sort</button></p>
+    <input type="text" id="inputPlanet" onkeyup="searchPlanet()" placeholder="Cari Planet" title="Type in a name"><br><br>
+   
+</br>
+        <table id="tablePlanet" class="table table-borderless">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Rotation head</th>
+                <th scope="col">Orbital period</th>
+                <th scope="col">Diameter</th>
+                <th scope="col">Climate</th>
+                <th scope="col">Gravity</th>
+                <th scope="col">Terrain</th>
+                <th scope="col">Surface Water</th>
+                <th scope="col">Population</th>
+            </tr>
+            </thead>
+        </table>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+    <script>
+        
+        var results = json_planet.results
+            // Loop through data.report instead of data
+           for (var i = 0; i < json_planet.results.length; i++) {
+               var tr = $('<tr/>');
+   
+           // Indexing into data json planet for each td element
+           $(tr).append("<td>" + json_planet.results[i].name + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].rotation_period+ "</td>");
+           $(tr).append("<td>" + json_planet.results[i].orbital_period + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].diameter + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].climate + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].gravity + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].terrain + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].surface_water + "</td>");
+           $(tr).append("<td>" + json_planet.results[i].population + "</td>");
+           $('.table').append(tr);    
+       }
+        
+       function searchPlanet(){
+        // Declare Variables
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("inputPlanet");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablePlanet");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    //    results.json_planet.sort()
+    //    console.log(json_planet);
+
+    function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("tablePlanet");
+  switching = true;
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      // Check if the two rows should switch place:
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        // If so, mark as a switch and break the loop:
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+    </script>
+</body>
+</html>
