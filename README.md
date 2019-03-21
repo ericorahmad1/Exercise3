@@ -1,2 +1,2 @@
 # Exercise3 Facebook DevC Denpasar
-Javascript Fundamental
+Javascript Development Exercise 3
